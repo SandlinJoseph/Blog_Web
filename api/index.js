@@ -17,7 +17,6 @@ const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(cookieParser());
-// app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // serve up production assets
 app.use(express.static('client/build'));
