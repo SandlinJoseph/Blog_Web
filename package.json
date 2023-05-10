@@ -1,8 +1,9 @@
 {
   "name": "blog",
   "scripts": {
-    "start": "node api/index.js",
-    "dev": "nodemon api/index.js"
+    "start": "npm run build && node api/index.js",
+    "dev": "nodemon api/index.js",
+    "build":"cd client && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
