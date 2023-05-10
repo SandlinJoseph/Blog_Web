@@ -17,13 +17,17 @@ const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static(__dirname + '/uploads'));
+// app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // serve up production assets
 app.use(express.static('client/build'));
 
 mongoose.connect('mongodb+srv://bookstore_user:eF798IfudihrLePS@bookstore.ck0kqvf.mongodb.net/blog_db?retryWrites=true&w=majority');
 mongoose.set('strictQuery', false);
+
+app.get("/api/image/:key", (req, res, next) => {
+  res.sendFile(path.join(__dirname,`../uploads/${req.params.key}`))
+})
 
 app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
@@ -65,7 +69,7 @@ app.get('/api/profile', (req, res) => {
   });
 });
 
-app.post('/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
   res.cookie('token', '').json('ok');
 });
 
@@ -84,7 +88,7 @@ app.post('/api/post', uploadMiddleware.single('file'), async (req, res) => {
       title,
       summary,
       content,
-      cover: newPath,
+      cover: newPath.split("\\")[1],
       author: info.id,
     });
     res.json(postDoc);
@@ -115,7 +119,7 @@ app.put('/api/post', uploadMiddleware.single('file'), async (req, res) => {
       title,
       summary,
       content,
-      cover: newPath ? newPath : postDoc.cover,
+      cover: newPath ? newPath.split("\\")[1] : postDoc.cover,
     });
 
     res.json(postDoc);

@@ -9,10 +9,9 @@ export default function PostPage() {
   const {userInfo} = useContext(UserContext);
   const {id} = useParams();
   useEffect(() => {
-    fetch(`/post/${id}`)
+    fetch(`/api/post/${id}`)
       .then(response => {
         response.json().then(postInfo => {
-          console.log(postInfo);
           setPostInfo(postInfo);
         });
       });
@@ -36,7 +35,7 @@ export default function PostPage() {
         </div>
       )}
       <div className="image">
-        <img src={`/${postInfo.cover}`} alt=""/>
+        <img src={`/api/image/${postInfo.cover}`} alt=""/>
       </div>
       <div className="content" dangerouslySetInnerHTML={{__html:postInfo.content}} />
     </div>
